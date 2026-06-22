@@ -16,12 +16,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // Gunakan Schema (tanpa backslash) karena sudah di-import di atas
-        Schema::defaultStringLength(191);
-        
-        // Gunakan DB (tanpa backslash) karena sudah di-import di atas
-        if (env('DB_CONNECTION') === 'mysql') {
-            DB::statement('SET SESSION sql_require_primary_key = 0;');
-        }
+     // Tambahkan blok ini untuk mencegah akses database saat proses build
+    if ($this->app->runningInConsole()) {
+        return;
+    }
     }
 }
